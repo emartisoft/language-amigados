@@ -1,0 +1,12 @@
+{
+  "name": "language-amigados",
+  "main": "./lib/language-amigados",
+  "version": "0.0.1",
+  "description": "Adds syntax highlighting for AmigaDos script files in Atom.",
+  "repository": "https://github.com/emartisoft/language-amigados",
+  "license": "MIT",
+  "engines": {
+    "atom": "*"
+  },
+  "dependencies": {}
+}

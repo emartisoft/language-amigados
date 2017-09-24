@@ -1,0 +1,131 @@
+'scopeName': 'source.amigados'
+'name': 'AmigaDos'
+'fileTypes': [
+  'amigados'
+]
+'patterns': [
+  # single line comments
+  {
+    'match': '(;).*$|::.*$'
+    'name': 'comment.line.amigados'
+  }
+  # double-quote and bactick-quotted strings
+  {
+    'include': '#strings'
+  }
+  # variable
+  {
+    'include': '#variable'
+  }
+  # const numbers
+  {
+    'captures':
+      '1':
+        'name': 'constant.numeric.amigados'
+    'match': '\\b([0-9]+)\\b'
+    'name': 'meta.numberic.amigados'
+  }
+  # built-in non-control functionality
+  {
+    'match': '\\b(?i)(addbuffers|alias|ask|assign|break|cd|copy|date|delete|\
+    dir|diskchange|echo|failat|fault|filenote|get|getenv|iconx|info|install|\
+    join|lab|list|loadwb|lock|magtape|makedir|mount|path|prompt|protect|relabel|\
+    rename|requestchoice|requestfile|resident|run|search|setdate|setfont|setmap|\
+    setpatch|skip|stack|status|unalias|which|wait|execute|endcli|endshell|\
+    endskip|newshell|quit|version|why|type|showconfig|say|rexxmast|nofastmem|\
+    more|format|edit|ed|diskdoctor|diskcopy|cpu|bru|avail|setenv|wbrun|iprefs|\
+    conclip|binddrivers|adddatatypes|wbstartupctrl|wbinfo|waitforport|uptime|\
+    unsetenv|ts|traceroute|tee|te|tcpdump|tco|tcc|swapcd|sort|shownetstatus|\
+    setkeyboard|setfontcharset|setclock|rx|rxc|rxlib|rxset|roadshowcontrol|\
+    requeststring|remrad|reboot|recorder|pushcd|popcd|pipe|ping|pathpart|owner|\
+    nvgetvar|newcli|netshutdown|netlogviewer|move|mountinfo|makelink|logviewer|\
+    loadresource|loadmondrvs|ipf|ipstat|ipmon|ipnat|history|hi|help|group|\
+    getnetstatus|ftp|filesize|eval|dismount|deletenetroute|cut|countlines|\
+    configurenetinterface|clip|charsetconvert|changetaskpri|buildmaptable|arp|\
+    addnetroute|addnetinterface|set|unset)\\b'
+    'name': 'support.function.amigados'
+  }
+  # control keywords
+  {
+    'begin': '\\b(?i)(if)\\b'
+    'beginCaptures':
+      '0':
+        'name': 'keyword.control.amigados'
+    'end': '\\b(?i)(endif)\\b'
+    'endCaptures':
+      '0':
+        'name': 'keyword.control.amigados'
+    'patterns': [
+      {
+        # control conditionals on an IF line
+        'begin': '\\G'
+        'end': '(?=\\n)'
+        'patterns': [
+          {
+            'include': '#strings'
+          }
+          {
+            'include': '#variable'
+          }
+          {
+            'match': '\\b(?i)(warn|error|fail|eq|ge|gt|exists|not|val)\\b'
+            'name': 'keyword.other.amigados'
+          }
+        ]
+      }
+      {
+        'match': '\\b(?i)else\\b'
+        'name': 'keyword.control.amigados'
+      }
+      {
+        'include': '$base'
+      }
+    ]
+  }
+]
+
+'repository':
+  'strings':
+    'patterns': [
+      # double-quoted strings
+      {
+        'match': '\"[^\"]*\"'
+        'name' : 'string.quoted.double.amigados'
+      }
+      # bactick-quoting
+      {
+        'begin': '(`)'
+        'beginCaptures':
+          '0':
+           'name' : 'string.quoted.backtick.amigados'
+        'end': '(`)'
+        'endCaptures':
+          '0':
+           'name' : 'string.quoted.backtick.amigados'
+        'name': 'backtick.contents'
+        'patterns': [
+          {
+            'include': '$base'
+          }
+        ]
+      }
+    ]
+
+  'variable':
+    'patterns': [
+      #  a dollar sign ($) in front of the variable name
+      {
+        'match': '(\\$\\w+)'
+        'name': 'punctuation.definition.variable.amigados'
+      }
+      # definition variable
+      {
+          'match': '\\b(?i)(set|unset|get|getenv|setenv|unsetenv)\\s+(\\w+)\\s*'
+          'captures':
+              '1':
+                  'name': 'support.function.amigados'
+              '2':
+                  'name': 'punctuation.definition.variable.amigados'
+          'name': 'meta.function.amigados'
+      }
+    ]
